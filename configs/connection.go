@@ -24,9 +24,11 @@ func Connection() *gorm.DB {
 
 	viperPassword := viper.Get("DB_PASSWORD").(string)
 
+	viperSSLMode := viper.Get("DB_SSL_MODE").(string)
+
 	fmt.Println("viperUser", viperUser)
 
-	dbUrl := fmt.Sprintf("host=%v port=%v user=%v dbname=%v password=%v sslmode=disable", viperHost, viperPort, viperUser, viperDB, viperPassword)
+	dbUrl := fmt.Sprintf("host=%v port=%v user=%v dbname=%v password=%v sslmode=%v", viperHost, viperPort, viperUser, viperDB, viperPassword, viperSSLMode)
 	fmt.Println("dbUrl is\t\t", dbUrl)
 
 	db, err := gorm.Open(postgres.Open(dbUrl), &gorm.Config{})
