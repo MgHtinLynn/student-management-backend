@@ -12,6 +12,7 @@ import (
 func Connection() *gorm.DB {
 
 	viper.SetConfigFile(".env")
+	viper.AutomaticEnv()
 	_ = viper.ReadInConfig()
 
 	viperHost := viper.Get("DB_HOST").(string)
