@@ -35,11 +35,11 @@ func SetupRouter() *gin.Engine {
 	/**
 	@description Setup Mode Application
 	*/
-	//if utils.LoadConfig("GO_ENV") != "production" && utils.LoadConfig("GO_ENV") != "test" {
-	gin.SetMode(gin.DebugMode)
-	//} else {
-	// gin.SetMode(gin.ReleaseMode)
-	//}
+	if utils.LoadConfig("GO_ENV") == "production" {
+		gin.SetMode(gin.ReleaseMode)
+	} else {
+		gin.SetMode(gin.DebugMode)
+	}
 
 	/**
 	@description Setup Middleware
