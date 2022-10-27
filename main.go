@@ -9,6 +9,7 @@ import (
 	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"
 	"log"
+	"net/http"
 )
 
 func main() {
@@ -58,6 +59,12 @@ func SetupRouter() *gin.Engine {
 	/**
 	@description Init All Route
 	*/
+	r.GET("/", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "It's worked",
+		})
+	})
+
 	route.InitAuthRoutes(db, r)
 	route.InitUserRoutes(db, r)
 	route.InitRoleRoutes(db, r)
