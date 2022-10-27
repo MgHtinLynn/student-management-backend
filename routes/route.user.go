@@ -2,7 +2,13 @@ package routes
 
 import (
 	getUsers "github.com/MgHtinLynn/final-year-project-mcc/controllers/auth-controllers/users"
-	handleResultUsers "github.com/MgHtinLynn/final-year-project-mcc/handlers/user-handler/getUser"
+	"github.com/MgHtinLynn/final-year-project-mcc/controllers/user/createUser"
+	"github.com/MgHtinLynn/final-year-project-mcc/controllers/user/getUser"
+	"github.com/MgHtinLynn/final-year-project-mcc/controllers/user/updateUser"
+	handleCreateUser "github.com/MgHtinLynn/final-year-project-mcc/handlers/user-handler/createUser"
+	handleResultUser "github.com/MgHtinLynn/final-year-project-mcc/handlers/user-handler/getUser"
+	handleResultUsers "github.com/MgHtinLynn/final-year-project-mcc/handlers/user-handler/getUsers"
+	handleUpdateUser "github.com/MgHtinLynn/final-year-project-mcc/handlers/user-handler/updateUser"
 	"github.com/MgHtinLynn/final-year-project-mcc/middlewares"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -10,13 +16,30 @@ import (
 
 func InitUserRoutes(db *gorm.DB, route *gin.Engine) {
 
-	usersRepository := getUsers.NewRepositoryUser(db)
-	usersService := getUsers.NewServiceUsers(usersRepository)
-	usersHandler := handleResultUsers.NewHandlerGetUsers(usersService)
 	/**
 	@description All User Route
 	*/
+
+	usersRepository := getUsers.NewRepositoryUser(db)
+	usersService := getUsers.NewServiceUsers(usersRepository)
+	usersHandler := handleResultUsers.NewHandlerGetUsers(usersService)
+
+	userRepository := getUser.NewRepositoryUser(db)
+	userService := getUser.NewServiceUser(userRepository)
+	userHandler := handleResultUser.NewHandlerGetUser(userService)
+
+	createUserRepository := createUser.NewRepositoryCreate(db)
+	createUserService := createUser.NewServiceCreate(createUserRepository)
+	createUserHandler := handleCreateUser.NewHandlerCreateUser(createUserService)
+
+	updateUserRepository := updateUser.NewRepositoryUpdate(db)
+	updateUserService := updateUser.NewServiceUpdate(updateUserRepository)
+	updateUserHandler := handleUpdateUser.NewHandlerUpdateUser(updateUserService)
+
 	groupRoute := route.Group("/api/v1").Use(middlewares.Auth())
 	groupRoute.GET("/users", usersHandler.GetUsersHandler)
+	groupRoute.POST("/users", createUserHandler.CreateUserHandler)
+	groupRoute.GET("/users/:id", userHandler.GetUserHandler)
+	groupRoute.PUT("/users/:id", updateUserHandler.UpdateUserHandler)
 
 }

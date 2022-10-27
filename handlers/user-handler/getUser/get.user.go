@@ -1,28 +1,35 @@
 package handlerGetUser
 
 import (
-	getUsers "github.com/MgHtinLynn/final-year-project-mcc/controllers/auth-controllers/users"
+	"github.com/MgHtinLynn/final-year-project-mcc/controllers/user/getUser"
 	util "github.com/MgHtinLynn/final-year-project-mcc/utils"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 type handler struct {
-	service getUsers.Service
+	service getUser.Service
 }
 
-func NewHandlerGetUsers(service getUsers.Service) *handler {
+func NewHandlerGetUser(service getUser.Service) *handler {
 	return &handler{service: service}
 }
 
-func (h *handler) GetUsersHandler(ctx *gin.Context) {
-	getUserLists, count, errGetUsers := h.service.GetUsersService(ctx)
+func (h *handler) GetUserHandler(ctx *gin.Context) {
+	var input getUser.InputGetUser
 
-	switch errGetUsers {
-	case "USERS_NOT_FOUND_404":
-		util.APIPaginationResponse(ctx, "User data is not exists", http.StatusConflict, count, http.MethodPost, nil)
+	input.ID, _ = strconv.Atoi(ctx.Param("id"))
+
+	getUserById, errResultStudent := h.service.GetUserService(&input)
+
+	switch errResultStudent {
+
+	case "RESULT_STUDENT_NOT_FOUND_404":
+		util.APIResponse(ctx, "user data is not exist or deleted", http.StatusNotFound, http.MethodGet, nil)
+		return
 
 	default:
-		util.APIPaginationResponse(ctx, "Results Students data successfully", http.StatusOK, count, http.MethodPost, getUserLists)
+		util.APIResponse(ctx, "user data successfully", http.StatusOK, http.MethodGet, getUserById)
 	}
 }
