@@ -28,10 +28,6 @@ func SetupRouter() *gin.Engine {
 	@description Setup Database connection
 	*/
 	db := config.Connection()
-	/**
-	@description Init Router
-	*/
-	r := gin.Default()
 
 	/**
 	@description Setup Mode Application
@@ -41,6 +37,11 @@ func SetupRouter() *gin.Engine {
 	} else {
 		gin.SetMode(gin.DebugMode)
 	}
+
+	/**
+	@description Init Router
+	*/
+	r := gin.Default()
 
 	/**
 	@description Setup Middleware

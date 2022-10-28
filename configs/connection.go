@@ -2,11 +2,9 @@ package configs
 
 import (
 	"fmt"
-	model "github.com/MgHtinLynn/final-year-project-mcc/service/models"
 	"github.com/spf13/viper"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"log"
 )
 
 func Connection() *gorm.DB {
@@ -35,13 +33,13 @@ func Connection() *gorm.DB {
 	db, err := gorm.Open(postgres.Open(dbUrl), &gorm.Config{})
 	//
 	if err != nil {
-		log.Fatalln(err)
+		fmt.Println("err", err)
 	}
 	//
 	fmt.Println(db)
-	if !db.Migrator().HasTable(&model.User{}) {
-		_ = db.Migrator().CreateTable(&model.User{})
-	}
+	//if !db.Migrator().HasTable(&model.User{}) {
+	//	_ = db.Migrator().CreateTable(&model.User{})
+	//}
 	// _ = db.AutoMigrate(&models.User{})
 
 	//	Initialise value
