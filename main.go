@@ -20,7 +20,7 @@ func main() {
 	/**
 	@description Run Server
 	*/
-	log.Fatal(router.Run("localhost:" + utils.LoadConfig("GO_PORT")))
+	log.Fatal(router.Run(":" + utils.LoadConfig("GO_PORT")))
 }
 
 func SetupRouter() *gin.Engine {
