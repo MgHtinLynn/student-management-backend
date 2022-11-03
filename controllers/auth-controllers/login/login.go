@@ -1,7 +1,6 @@
 package loginAuth
 
 import (
-	"fmt"
 	model "github.com/MgHtinLynn/final-year-project-mcc/service/models"
 )
 
@@ -26,7 +25,5 @@ func (s *service) LoginService(input *InputLogin) (*model.User, string) {
 
 	resultLogin, errLogin := s.repository.LoginRepository(&user)
 
-	fmt.Println(resultLogin)
-	fmt.Println(errLogin)
 	return resultLogin, errLogin
 }

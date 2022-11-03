@@ -12,18 +12,6 @@ func Connection() *gorm.DB {
 	viper.SetConfigFile(".env")
 	viper.AutomaticEnv()
 	_ = viper.ReadInConfig()
-
-	//viperHost := viper.Get("DB_HOST").(string)
-	//
-	//viperPort := viper.Get("DB_PORT").(string)
-
-	// viperUser := viper.Get("DB_USERNAME").(string)
-
-	//viperDB := viper.Get("DB_NAME").(string)
-	//
-	//viperPassword := viper.Get("DB_PASSWORD").(string)
-	//
-	//viperSSLMode := viper.Get("DB_SSL_MODE").(string)
 	//
 	viperDBURL := viper.Get("DB_URL").(string)
 
