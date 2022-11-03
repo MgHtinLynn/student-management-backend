@@ -23,7 +23,7 @@ func (r *repository) UserRepository(input *model.User) (*model.User, string) {
 	db := r.db.Model(&user)
 	errorCode := make(chan string, 1)
 
-	getUser := db.Debug().Select("*").Where("id = ?", input.ID).Find(&user)
+	getUser := db.Select("*").Where("id = ?", input.ID).Find(&user)
 
 	if getUser.RowsAffected < 1 {
 		errorCode <- "RESULT_STUDENT_NOT_FOUND_404"

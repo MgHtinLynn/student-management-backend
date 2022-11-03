@@ -33,7 +33,7 @@ func (r *repository) CreateLectureRepository(input *model.Lecture) (*model.Lectu
 	Lectures.Name = input.Name
 	Lectures.TutorId = input.TutorId
 
-	addNewLecture := db.Debug().Create(&Lectures)
+	addNewLecture := db.Create(&Lectures)
 	db.Commit()
 
 	if addNewLecture.Error != nil {

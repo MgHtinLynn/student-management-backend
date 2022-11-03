@@ -23,7 +23,7 @@ func (r *repository) UpdateSubjectRepository(input *model.Subject) (*model.Subje
 	db := r.db.Model(&Subject)
 	errorCode := make(chan string, 1)
 
-	checkEmailExist := db.Debug().Select("*").Not("id = ?", input.ID).Where("name = ?", input.Name).Find(&Subject)
+	checkEmailExist := db.Select("*").Not("id = ?", input.ID).Where("name = ?", input.Name).Find(&Subject)
 
 	if checkEmailExist.RowsAffected > 0 {
 		errorCode <- "UPDATE_Subject_EMAIL_CONFLICT_400"
@@ -32,7 +32,7 @@ func (r *repository) UpdateSubjectRepository(input *model.Subject) (*model.Subje
 
 	Subject.ID = input.ID
 
-	checkSubjectId := db.Debug().Select("*").Where("id = ?", input.ID).Find(&Subject)
+	checkSubjectId := db.Select("*").Where("id = ?", input.ID).Find(&Subject)
 
 	if checkSubjectId.RowsAffected < 1 {
 		errorCode <- "UPDATE_Subject_NOT_FOUND_404"

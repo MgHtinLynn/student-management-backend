@@ -24,7 +24,7 @@ func (r *repository) UpdateUserRepository(input *model.User) (*model.User, strin
 	db := r.db.Model(&user)
 	errorCode := make(chan string, 1)
 
-	checkEmailExist := db.Debug().Select("*").Not("id = ?", input.ID).Where("email = ?", input.Email).Find(&user)
+	checkEmailExist := db.Select("*").Not("id = ?", input.ID).Where("email = ?", input.Email).Find(&user)
 
 	if checkEmailExist.RowsAffected > 0 {
 		errorCode <- "UPDATE_USER_EMAIL_CONFLICT_400"
@@ -33,7 +33,7 @@ func (r *repository) UpdateUserRepository(input *model.User) (*model.User, strin
 
 	user.ID = input.ID
 
-	checkUserId := db.Debug().Select("*").Where("id = ?", input.ID).Find(&user)
+	checkUserId := db.Select("*").Where("id = ?", input.ID).Find(&user)
 
 	if checkUserId.RowsAffected < 1 {
 		errorCode <- "UPDATE_USER_NOT_FOUND_404"
@@ -50,7 +50,7 @@ func (r *repository) UpdateUserRepository(input *model.User) (*model.User, strin
 
 	fmt.Println("user", user)
 
-	updateUser := db.Debug().Select("*").Where("id = ?", input.ID).Updates(user)
+	updateUser := db.Select("*").Where("id = ?", input.ID).Updates(user)
 
 	fmt.Println("updateUser", updateUser)
 

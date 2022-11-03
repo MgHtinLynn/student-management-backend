@@ -23,7 +23,7 @@ func (r *repository) SubjectRepository(input *model.Subject) (*model.Subject, st
 	db := r.db.Model(&Subject)
 	errorCode := make(chan string, 1)
 
-	getSubject := db.Debug().Select("*").Preload("Teacher").Preload("Lecture").Where("id = ?", input.ID).Find(&Subject)
+	getSubject := db.Select("*").Preload("Teacher").Preload("Lecture").Where("id = ?", input.ID).Find(&Subject)
 
 	if getSubject.RowsAffected < 1 {
 		errorCode <- "RESULT_SUBJECT_NOT_FOUND_404"

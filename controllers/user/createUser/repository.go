@@ -24,14 +24,14 @@ func (r *repository) CreateUserRepository(input *model.User) (*model.User, strin
 	db := r.db.Model(&users)
 	errorCode := make(chan string, 1)
 
-	checkEmailExist := db.Debug().Select("*").Not("id = ?", input.ID).Where("email = ?", input.Email).Find(&users)
+	checkEmailExist := db.Select("*").Not("id = ?", input.ID).Where("email = ?", input.Email).Find(&users)
 
 	if checkEmailExist.RowsAffected > 0 {
 		errorCode <- "CREATE_USER_EMAIL_CONFLICT_400"
 		return &users, <-errorCode
 	}
 
-	checkUserExist := db.Debug().Select("*").Where("email = ?", input.Email).Find(&users)
+	checkUserExist := db.Select("*").Where("email = ?", input.Email).Find(&users)
 
 	if checkUserExist.RowsAffected > 0 {
 		errorCode <- "CREATE_USER_CONFLICT_409"
@@ -47,7 +47,7 @@ func (r *repository) CreateUserRepository(input *model.User) (*model.User, strin
 	users.Role = input.Role
 	users.ProfileUrl = input.ProfileUrl
 
-	addNewStudent := db.Debug().Create(&users)
+	addNewStudent := db.Create(&users)
 	db.Commit()
 
 	if addNewStudent.Error != nil {

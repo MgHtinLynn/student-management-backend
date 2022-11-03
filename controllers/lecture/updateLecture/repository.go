@@ -24,7 +24,7 @@ func (r *repository) UpdateLectureRepository(input *model.Lecture) (*model.Lectu
 	db := r.db.Model(&Lecture)
 	errorCode := make(chan string, 1)
 
-	checkEmailExist := db.Debug().Select("*").Not("id = ?", input.ID).Where("name = ?", input.Name).Find(&Lecture)
+	checkEmailExist := db.Select("*").Not("id = ?", input.ID).Where("name = ?", input.Name).Find(&Lecture)
 
 	if checkEmailExist.RowsAffected > 0 {
 		errorCode <- "UPDATE_Lecture_EMAIL_CONFLICT_400"
@@ -33,7 +33,7 @@ func (r *repository) UpdateLectureRepository(input *model.Lecture) (*model.Lectu
 
 	Lecture.ID = input.ID
 
-	checkLectureId := db.Debug().Select("*").Where("id = ?", input.ID).Find(&Lecture)
+	checkLectureId := db.Select("*").Where("id = ?", input.ID).Find(&Lecture)
 
 	if checkLectureId.RowsAffected < 1 {
 		errorCode <- "UPDATE_Lecture_NOT_FOUND_404"
@@ -45,7 +45,7 @@ func (r *repository) UpdateLectureRepository(input *model.Lecture) (*model.Lectu
 
 	fmt.Println("Lecture", Lecture)
 
-	updateLecture := db.Debug().Select("*").Where("id = ?", input.ID).Updates(Lecture)
+	updateLecture := db.Select("*").Where("id = ?", input.ID).Updates(Lecture)
 
 	fmt.Println("updateLecture", updateLecture)
 
