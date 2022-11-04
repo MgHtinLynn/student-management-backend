@@ -7,7 +7,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 	"net/http"
-	"strconv"
 )
 
 type handler struct {
@@ -54,7 +53,9 @@ func (h *handler) LoginHandler(ctx *gin.Context) {
 			return
 		}
 
-		util.APIResponse(ctx, "Login successfully", http.StatusOK, http.MethodPost, map[string]string{"accessToken": accessToken, "id": strconv.Itoa(int(resultLogin.ID)), "email": resultLogin.Email, "name": resultLogin.Name})
+		resultLogin.AccessToken = accessToken
+		
+		util.APIResponse(ctx, "Login successfully", http.StatusOK, http.MethodPost, resultLogin)
 		return
 	}
 }

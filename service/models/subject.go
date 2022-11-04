@@ -11,7 +11,7 @@ type Subject struct {
 	TeacherId int            `json:"teacher_id"`
 	Teacher   User           `gorm:"foreignKey:teacher_id" json:"teacher"`
 	LectureId int            `json:"lecture_id"`
-	Lecture   Lecture        `gorm:"foreignKey:lecture_id" json:"lecture"`
+	Lecture   Lecture        `gorm:"foreignKey:lecture_id" json:"lecture,omitempty"`
 	CreatedAt time.Time      `json:"created_at"`
 	UpdatedAt time.Time      `json:"updated_at"`
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"deleted_at"`
