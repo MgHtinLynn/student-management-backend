@@ -73,6 +73,7 @@ func SetupRouter() *gin.Engine {
 	route.InitLectureRoutes(db, r)
 	route.InitSubjectRoutes(db, r)
 	route.InitExamResultRoutes(db, r)
+	route.InitTranscriptRoutes(db, r)
 
 	return r
 }
