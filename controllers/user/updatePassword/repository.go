@@ -1,8 +1,10 @@
-package updateUser
+package updatePassword
 
 import (
 	model "github.com/MgHtinLynn/final-year-project-mcc/service/models"
+	"github.com/MgHtinLynn/final-year-project-mcc/utils"
 	"gorm.io/gorm"
+	"time"
 )
 
 type Repository interface {
@@ -20,28 +22,12 @@ func NewRepositoryUpdate(db *gorm.DB) *repository {
 func (r *repository) UpdateUserRepository(input *model.User) (*model.User, string) {
 
 	var user model.User
-	var checkUser model.User
 	db := r.db.Model(&user)
-	checkDB := r.db.Model(&user)
 	errorCode := make(chan string, 1)
 
-	checkEmailExist := checkDB.Select("*").Not("id = ?", input.ID).Where("email = ?", input.Email).Find(&checkUser)
-
-	if checkEmailExist.RowsAffected > 0 {
-		errorCode <- "UPDATE_USER_EMAIL_CONFLICT_400"
-		return &user, <-errorCode
-	}
-
 	user.ID = input.ID
-	user.Name = input.Name
-	user.Email = input.Email
-	user.Phone = input.Phone
-	user.Active = input.Active
-	user.Address = input.Address
-	user.Role = input.Role
-	user.ProfileUrl = input.ProfileUrl
 
-	updateUser := db.Select("*").Where("id = ?", input.ID).Updates(&user)
+	updateUser := db.Select("password", "email_verified_at", "active").Where("id = ?", input.ID).Updates(model.User{Password: utils.HashPassword(input.Password), Active: true, EmailVerifiedAt: &(&struct{ time.Time }{time.Now()}).Time})
 
 	if updateUser.Error != nil {
 		errorCode <- "UPDATE_USER_FAILED_403"

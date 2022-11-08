@@ -1,7 +1,6 @@
 package getRoles
 
 import (
-	"fmt"
 	"github.com/MgHtinLynn/final-year-project-mcc/service/models"
 	"github.com/gin-gonic/gin"
 )
@@ -21,6 +20,5 @@ func NewServiceRoles(repository Repository) *service {
 func (s *service) GetRolesService(c *gin.Context) (*[]models.Role, *int64, string) {
 	var Role models.Role
 	getRoleLists, count, errGetRoles := s.repository.RoleRepository(&Role)
-	fmt.Println(getRoleLists)
 	return getRoleLists, count, errGetRoles
 }

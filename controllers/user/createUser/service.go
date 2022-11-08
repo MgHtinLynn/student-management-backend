@@ -22,6 +22,7 @@ func (s *service) CreateUserService(input *InputCreateUser) (*model.User, string
 		Phone:      input.Phone,
 		Active:     input.Active,
 		Address:    input.Address,
+		Password:   input.Password,
 		Role:       input.Role,
 		ProfileUrl: input.ProfileURL,
 	}

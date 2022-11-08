@@ -5,6 +5,8 @@ import (
 )
 import "time"
 
+type TypeTime *time.Time
+
 type User struct {
 	ID              int            `gorm:"primarykey" json:"id"`
 	Name            string         `json:"name"`
@@ -15,7 +17,7 @@ type User struct {
 	Phone           string         `json:"phone"`
 	ProfileUrl      string         `json:"profile_url"`
 	Address         string         `json:"address"`
-	EmailVerifiedAt time.Time      `json:"email_verified_at"`
+	EmailVerifiedAt TypeTime       `json:"email_verified_at" gorm:"default:null"`
 	CreatedAt       time.Time      `json:"created_at"`
 	UpdatedAt       time.Time      `json:"updated_at"`
 	DeletedAt       gorm.DeletedAt `gorm:"index" json:"deleted_at"`

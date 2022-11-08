@@ -41,14 +41,13 @@ func (r *repository) CreateUserRepository(input *model.User) (*model.User, strin
 	users.Name = input.Name
 	users.Email = input.Email
 	users.Phone = input.Phone
-	users.Password = utils.HashPassword("password")
+	users.Password = utils.HashPassword(input.Password)
 	users.Active = input.Active
 	users.Address = input.Address
 	users.Role = input.Role
 	users.ProfileUrl = input.ProfileUrl
 
 	addNewStudent := db.Create(&users)
-	db.Commit()
 
 	if addNewStudent.Error != nil {
 		errorCode <- "CREATE_STUDENT_FAILED_403"

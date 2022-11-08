@@ -22,6 +22,6 @@ func (s *service) GetUsersService(c *gin.Context) (*[]models.User, *int64, strin
 	pagination := utils.GeneratePaginationFromRequest(c)
 	var user models.User
 
-	getUserLists, count, errGetUsers := s.repository.UserRepository(&user, &pagination)
+	getUserLists, count, errGetUsers := s.repository.UserRepository(&user, &pagination, c)
 	return getUserLists, count, errGetUsers
 }

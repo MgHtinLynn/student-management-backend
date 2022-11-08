@@ -1,7 +1,6 @@
 package updateLecture
 
 import (
-	"fmt"
 	model "github.com/MgHtinLynn/final-year-project-mcc/service/models"
 	"gorm.io/gorm"
 )
@@ -43,11 +42,7 @@ func (r *repository) UpdateLectureRepository(input *model.Lecture) (*model.Lectu
 	Lecture.Name = input.Name
 	Lecture.TutorId = input.TutorId
 
-	fmt.Println("Lecture", Lecture)
-
 	updateLecture := db.Select("*").Where("id = ?", input.ID).Updates(Lecture)
-
-	fmt.Println("updateLecture", updateLecture)
 
 	if updateLecture.Error != nil {
 		errorCode <- "UPDATE_Lecture_FAILED_403"
