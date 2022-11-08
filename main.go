@@ -74,6 +74,7 @@ func SetupRouter() *gin.Engine {
 	route.InitSubjectRoutes(db, r)
 	route.InitExamResultRoutes(db, r)
 	route.InitTranscriptRoutes(db, r)
+	route.InitCertificateRoutes(db, r)
 
 	return r
 }
