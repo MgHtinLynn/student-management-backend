@@ -13,6 +13,17 @@ type handler struct {
 	service loginAuth.Service
 }
 
+type LoginAccess struct {
+	ID          int    `json:"id"`
+	Name        string `json:"name"`
+	Email       string `json:"email"`
+	Active      bool   `json:"active"`
+	Role        string `json:"role"`
+	Phone       string `json:"phone"`
+	ProfileUrl  string `json:"profile_url"`
+	AccessToken string `json:"accessToken,omitempty"`
+}
+
 func NewHandlerLogin(service loginAuth.Service) *handler {
 	return &handler{service: service}
 }
@@ -53,9 +64,9 @@ func (h *handler) LoginHandler(ctx *gin.Context) {
 			return
 		}
 
-		resultLogin.AccessToken = accessToken
-		
-		util.APIResponse(ctx, "Login successfully", http.StatusOK, http.MethodPost, resultLogin)
+		result := LoginAccess{AccessToken: accessToken, ID: resultLogin.ID, Name: resultLogin.Name, Email: resultLogin.Email, Role: resultLogin.Role, Phone: resultLogin.Phone, ProfileUrl: resultLogin.ProfileUrl}
+
+		util.APIResponse(ctx, "Login successfully", http.StatusOK, http.MethodPost, result)
 		return
 	}
 }
